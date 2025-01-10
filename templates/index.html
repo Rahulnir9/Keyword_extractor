@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Description Keyword Extractor</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Job Description Keyword Extractor</h1>
+        <form method="post">
+            <textarea name="job_description" rows="10" cols="50" placeholder="Paste job description here..."></textarea><br>
+            <input type="submit" value="Extract Keywords">
+        </form>
+
+        {% if error %}
+            <p style="color: red;">Error: {{ error }}</p>
+        {% endif %}
+
+        {% if keywords is not none and not keywords.empty %}
+            <h2>Extracted Keywords:</h2>
+            <ul>
+                {% for index, row in keywords.iterrows() %}
+                    <li>{{ row['word'] }} ({{ row['tfidf_score'] if row['tfidf_score'] is defined else row['frequency'] }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No keywords extracted. Please enter a valid job description.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
